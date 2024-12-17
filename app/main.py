@@ -13,8 +13,30 @@ def main():
     while True:
         try:
             buf, source = udp_socket.recvfrom(512)
-    
-            response = b""
+            
+            pid = 1234
+            qr = 1
+            opcode = 0
+            aa = 0
+            tc = 0
+            rd = 0
+            ra = 0
+            z = 0
+            rcode = 0
+            qdcount = 0
+            ancount = 0
+            nscount = 0
+            arcount = 0
+            dns_header = f"{pid}{qr}{opcode}{aa}{tc}{rd}{ra}{z}{rcode}{qdcount}{ancount}{nscount}{arcount}"
+            
+
+            dns_message = f"{dns_header}"
+            
+            response = bytes(dns_header, encoding="utf-8")
+            
+            print(f"buf: {buf}")
+            print(f"source: {source}")
+            print(f"response: {response}")
     
             udp_socket.sendto(response, source)
         except Exception as e:
