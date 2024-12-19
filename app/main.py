@@ -16,16 +16,16 @@ def main():
             
             # HEADER
             # 16 bits
-            p_id = b"\x04\xd2" # Packet Identifier (ID) 16 bits
+            p_id = buf[:2] # b"\x04\xd2" # Packet Identifier (ID) 16 bits
             # 16 bits per 8 bits
             # first 8 bits for p_qr, p_opcode, p_aa, p_tc, p_rd
-            p_qr = b"\x81" # Query/Response Indicator (QR) 1 bit
+            p_qr = bytes([0x80 + buf[2]]) # Query/Response Indicator (QR) 1 bit
             p_opcode = b"" # Operation Code (OPCODE) 4 bits
             p_aa = b"" # Authoritative Answer (AA) 1 bit
             p_tc = b"" # Truncation (TC) 1 bit
             p_rd = b"" # Recursion Desired (RD) 1 bit
             # second 8 bits for p_ra, p_z, p_rcode
-            p_ra = b"\x00" # Recursion Available (RA) 1 bit
+            p_ra = b"\x00" if buf[2] == b'\x00' else b"\x04" # Recursion Available (RA) 1 bit
             p_z = b"" # Reserved (Z) 3 bits
             p_rcode = b"" # Response Code (RCODE) 4 bits
             # 16 bits
